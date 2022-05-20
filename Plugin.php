@@ -74,7 +74,7 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($logoScan);
         $copyTip = new Typecho_Widget_Helper_Form_Element_Radio('copyTip', array(0 => '关闭', 1 => '开启'), 0, _t('复制成功提示'), '');
         $form->addInput($copyTip);
-        $htitlebg = new Text('htitlebg', null, 'http://example.com/?url=', _t('H1/H2标题背景颜色'));
+        $htitlebg = new Text('htitlebg', null, '0,191,255', _t('H1/H2标题背景颜色'),'RGB颜色代码');
         $form->addInput($htitlebg);
     }
     }
