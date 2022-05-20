@@ -124,10 +124,6 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function parseShortCode(){
 		require_once 'ShortCode.php';
 		ShortCode::set('videoiframe',function($name,$attr,$text,$code){
-			// name 短代码名称
-            // attr 短代码属性
-            // text 短代码内容
-            // code 整条短代码内容
             $host = explode('.',$text, -1)[1];
 
             switch ($host){
