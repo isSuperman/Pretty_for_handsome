@@ -29,6 +29,7 @@ class PrettyHandsome_Plugin implements PluginInterface
 		Typecho_Plugin::factory('admin/common.php')->begin = [__Class__, 'parseShortCode'];
 		Typecho_Plugin::factory('Widget_Archive')->handleInit = [__Class__, 'parseShortCode'];
         Typecho_Plugin::factory('Widget_Archive')->header = array(__CLASS__, 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array(__CLASS__, 'footer');
         Typecho_Plugin::factory('admin/write-post.php')->bottom = array(__CLASS__, 'insertHeader');
         Typecho_Plugin::factory('admin/write-page.php')->bottom = array(__CLASS__, 'insertHeader');
 
@@ -49,25 +50,28 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function config(Form $form)
     {
         /** 抖音解析API */
-        $dyapi = new Text('dyapi', null, 'http://example.com/?url=', _t('抖音解析API'));
+        // $dyapi = new Text('dyapi', null, 'http://example.com/?url=', _t('抖音解析API'));
+        $dyapi = new Text('dyapi', null, 'https://jx.parwix.com:4433/player/?url=', _t('抖音解析API'));
         $form->addInput($dyapi);
         /** 抖音解析API */
-        $videoapi = new Text('videoapi', null, 'http://example.com/?url=', _t('其他视频云解析API'));
+        // $videoapi = new Text('videoapi', null, 'http://example.com/?url=', _t('其他视频云解析API'));
+        $videoapi = new Text('videoapi', null, 'https://jx.parwix.com:4433/player/?url=', _t('其他视频云解析API'));
         $form->addInput($videoapi);
         $timeinfo = new Typecho_Widget_Helper_Form_Element_Radio('timeinfo', array(0 => '关闭', 1 => '开启'), 0, _t('右侧边栏时光流逝模块'), '');
         $form->addInput($timeinfo);
-        $weather = new Typecho_Widget_Helper_Form_Element_Radio('weather', array(0 => '关闭', 1 => '开启'), 0, _t('顶部导航栏天气'), '');
-        $form->addInput($timeinfo);
-        $weatherUID = new Text('weatherUID', null, 'http://example.com/?url=', _t('心知天气公钥'));
+        $weather = new Typecho_Widget_Helper_Form_Element_Radio('weather', array(0 => '关闭', 1 => '开启'), 0, _t('顶部导航栏天气'), '登录<a href="https://www.seniverse.com">心知天气官网</a>注册申请免费API 密钥');
+        $form->addInput($weather);
+        $weatherUID = new Text('weatherUID', null, '', _t('心知天气公钥'));
         $form->addInput($weatherUID);
-        $weatherHash = new Text('weatherHash', null, 'http://example.com/?url=', _t('心知天气私钥'));
+        $weatherHash = new Text('weatherHash', null, '', _t('心知天气私钥'));
         $form->addInput($weatherHash);
         $typefire = new Typecho_Widget_Helper_Form_Element_Radio('typefire', array(0 => '关闭', 1 => '开启'), 0, _t('打字烟花效果'), '');
         $form->addInput($typefire);
-        $clickWord = new Typecho_Widget_Helper_Form_Element_Radio('clickWord', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标点击特效'), '');
-        $form->addInput($clickWord);
         $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('显示全站字数、在线人数、响应耗时和访客总数'), '');
         $form->addInput($siteInfo);
+        // complete
+        $clickWord = new Typecho_Widget_Helper_Form_Element_Radio('clickWord', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标点击特效'), '');
+        $form->addInput($clickWord);
         $titleCenter = new Typecho_Widget_Helper_Form_Element_Radio('titleCenter', array(0 => '关闭', 1 => '开启'), 0, _t('文章标题居中'), '');
         $form->addInput($titleCenter);
         $logoScan = new Typecho_Widget_Helper_Form_Element_Radio('logoScan', array(0 => '关闭', 1 => '开启'), 0, _t('LOGO扫光'), '');
@@ -76,7 +80,7 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($copyTip);
         $htitlebg = new Text('htitlebg', null, '0,191,255', _t('H1/H2标题背景颜色'),'RGB颜色代码');
         $form->addInput($htitlebg);
-    }
+
     }
 
     /**
@@ -102,7 +106,86 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
+ 
+        // 文章标题居中
+        if(Helper::options()->plugin('PrettyHandsome')->titleCenter==1){
+            echo '<style>
+            header.bg-light.lter.wrapper-md {
+                text-align: center;
+            }
+            </style>';
+        }
+        // LOGO扫光
+        if(Helper::options()->plugin('PrettyHandsome')->logoScan==1){
+            echo '<style>
+            .navbar-brand{position:relative;overflow:hidden;margin: 0px 0 0 0px;}.navbar-brand:before{content:""; position: absolute; left: -665px; top: -460px; width: 200px; height: 15px; background-color: rgba(255,255,255,.5); -webkit-transform: rotate(-45deg); -moz-transform: rotate(-45deg); -ms-transform: rotate(-45deg); -o-transform: rotate(-45deg); transform: rotate(-45deg); -webkit-animation: searchLights 6s ease-in 0s infinite; -o-animation: searchLights 6s ease-in 0s infinite; animation: searchLights 6s ease-in 0s infinite;}@-moz-keyframes searchLights{50%{left: -100px; top: 0;} 65%{left: 120px; top: 100px;}}@keyframes searchLights{40%{left: -100px; top: 0;} 60%{left: 120px; top: 100px;} 80%{left: -100px; top: 0px;}}
+            </style>';
+        }
+        // 标题背景颜色自定义
+        if(Helper::options()->plugin('PrettyHandsome')->htitlebg){
+            $htitlebg = Helper::options()->plugin('PrettyHandsome')->htitlebg;
+            echo '<style>
+            #post-content h1, #post-content h2 {
+                background : linear-gradient(to bottom,transparent 60%,rgba('. $htitlebg . ',.38) 0) no-repeat !important
+                }
+            </style>';
+        }
     }
+
+    /**
+     *为footer添加js文件
+     *@access public
+     *@return void
+     */
+    public static function footer() {
+        // 鼠标点击特效
+        if(Helper::options()->plugin('PrettyHandsome')->clickWord==1){
+            echo '<script type="text/javascript"> 
+            /* 鼠标特效 */
+            var a_idx = 0; 
+            jQuery(document).ready(function($) { 
+                $("body").click(function(e) { 
+                    var a = new Array("富强", "民主", "文明", "和谐", "自由", "平等", "公正" ,"法治", "爱国", "敬业", "诚信", "友善"); 
+                    var $i = $("<span/>").text(a[a_idx]); 
+                    a_idx = (a_idx + 1) % a.length; 
+                    var x = e.pageX, 
+                    y = e.pageY; 
+                    $i.css({ 
+                        "z-index": 999999999999999999999999999999999999999999999999999999999999999999999, 
+                        "top": y - 20, 
+                        "left": x, 
+                        "position": "absolute", 
+                        "font-weight": "bold", 
+                        "color": "#ff6651" 
+                    }); 
+                    $("body").append($i); 
+                    $i.animate({ 
+                        "top": y - 180, 
+                        "opacity": 0 
+                    }, 
+                    1500, 
+                    function() { 
+                        $i.remove(); 
+                    }); 
+                }); 
+            }); 
+            </script>';
+        }
+        if(Helper::options()->plugin('PrettyHandsome')->copyTip==1){
+            echo '<script>
+            kaygb_copy();function kaygb_copy(){$(document).ready(function(){$("body").bind("copy",function(e){hellolayer()})});var sitesurl=window.location.href;function hellolayer(){
+            $.message({
+                message: "尊重原创，转载请注明出处！<br> 本文作者：苏为歌<br>原文链接：<br>"+sitesurl,
+                title: "复制成功",
+                type: "success",
+                autoHide: !1,
+                time: "5000"
+                })
+            }}
+            </script>';
+        }
+    }
+
 
     /**
      *为header添加css文件
@@ -128,11 +211,11 @@ class PrettyHandsome_Plugin implements PluginInterface
 
             switch ($host){
                 case "douyin":
-                    return '<iframe title="iframe" src="'. Helper::options()->plugin('VideoIframe')->dyapi . $text . '" frameborder="no"  framespacing="0" border="0" scrolling="no" allowfullscreen="true" class="iframe_video"></iframe>';
+                    return '<iframe title="iframe" src="'. Helper::options()->plugin('PrettyHandsome')->dyapi . $text . '" frameborder="no"  framespacing="0" border="0" scrolling="no" allowfullscreen="true" class="iframe_video"></iframe>';
                 case "bilibili":
                     return '<iframe title="iframe" src="' . $text . '&as_wide=1&high_quality=1&danmaku=0" frameborder="no" framespacing="0" border="0" scrolling="no" allowfullscreen="true" class="iframe_video"></iframe>';
                 default:
-                    return '<iframe title="iframe" src="' . Helper::options()->plugin('VideoIframe')->videoapi . $text . '" frameborder="no"  framespacing="0" border="0" scrolling="no" allowfullscreen="true" class="iframe_video"></iframe>';
+                    return '<iframe title="iframe" src="' . Helper::options()->plugin('PrettyHandsome')->videoapi . $text . '" frameborder="no"  framespacing="0" border="0" scrolling="no" allowfullscreen="true" class="iframe_video"></iframe>';
             }
 		});
 	}
