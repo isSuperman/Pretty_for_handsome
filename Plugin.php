@@ -69,7 +69,10 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($typefire);
         $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('显示全站字数、在线人数、响应耗时和访客总数'), '');
         $form->addInput($siteInfo);
+        
         // complete
+        $avatarCircle = new Typecho_Widget_Helper_Form_Element_Radio('avatarCircle', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标经过头像旋转和放大'), '');
+        $form->addInput($avatarCircle);
         $clickWord = new Typecho_Widget_Helper_Form_Element_Radio('clickWord', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标点击特效'), '');
         $form->addInput($clickWord);
         $titleCenter = new Typecho_Widget_Helper_Form_Element_Radio('titleCenter', array(0 => '关闭', 1 => '开启'), 0, _t('文章标题居中'), '');
@@ -106,7 +109,14 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
- 
+        
+        //鼠标经过头像旋转和放大
+        if(Helper::options()->plugin('PrettyHandsome')->avatarCircle==1){
+            echo '<style>
+            .img-circle {border-radius: 50%;animation: light 4s ease-in-out infinite;transition: all 0.5s;}.img-circle:hover {transform: scale(1.15) rotate(720deg);
+            }@keyframes light {0% {box-shadow: 0 0 4px #f00;}25% {box-shadow: 0 0 16px #0f0;}50% {box-shadow: 0 0 4px #00f;}75% {box-shadow: 0 0 16px #0f0;}100% {box-shadow: 0 0 4px #f00;}}
+            </style>';
+        }
         // 文章标题居中
         if(Helper::options()->plugin('PrettyHandsome')->titleCenter==1){
             echo '<style>
