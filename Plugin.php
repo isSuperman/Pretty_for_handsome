@@ -69,8 +69,11 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($typefire);
         $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('显示全站字数、在线人数、响应耗时和访客总数'), '');
         $form->addInput($siteInfo);
-        
+        $colorToc = new Typecho_Widget_Helper_Form_Element_Radio('colorToc', array(0 => '关闭', 1 => '开启'), 0, _t('彩色目录图标'), '');
+        $form->addInput($colorToc);
         // complete
+        $colorTag = new Typecho_Widget_Helper_Form_Element_Radio('colorTag', array(0 => '关闭', 1 => '开启'), 0, _t('彩色标签'), '');
+        $form->addInput($colorTag);
         $avatarCircle = new Typecho_Widget_Helper_Form_Element_Radio('avatarCircle', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标经过头像旋转和放大'), '');
         $form->addInput($avatarCircle);
         $clickWord = new Typecho_Widget_Helper_Form_Element_Radio('clickWord', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标点击特效'), '');
@@ -109,6 +112,18 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
+
+        if(Helper::options()->plugin('PrettyHandsome')->colorToc==1){
+            $color = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];
+            // 加入 PJAX 回调函数
+            Helper::options()->ChangeAction .= 'let leftHeader=document.querySelectorAll("span.nav-icon>svg,span.nav-icon>i");let leftHeaderColorArr=["#7887EB","#ABDEF3", "#6CC3E8", "#86DEF3", "#7887EB", "#9BA8F5","#7988EC","#B3BCF5","#ABDEF3","#B3BCD7","#91D7F3","#7988EC","#9CD2E9","#9BA8F5","#B3BCF5"];leftHeader.forEach(tag=>{tagsColor=leftHeaderColorArr[Math.floor(Math.random()*leftHeaderColorArr.length)];tag.style.color=tagsColor});';
+        }
+
+        if(Helper::options()->plugin('PrettyHandsome')->colorTag==1){
+            $color = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];
+            // 加入 PJAX 回调函数
+            Helper::options()->ChangeAction .= 'let tags = document.querySelectorAll("#tag_cloud-2 a,.list-group-item .pull-right");let colorArr = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];tags.forEach(tag =>{tagsColor = colorArr[Math.floor(Math.random() * colorArr.length)];tag.style.backgroundColor = tagsColor;tag.style.color = "#ffffff"});';
+        }
         
         //鼠标经过头像旋转和放大
         if(Helper::options()->plugin('PrettyHandsome')->avatarCircle==1){
@@ -148,10 +163,19 @@ class PrettyHandsome_Plugin implements PluginInterface
      *@return void
      */
     public static function footer() {
+        if(Helper::options()->plugin('PrettyHandsome')->colorToc==1){
+            $color = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];
+            echo '<script>
+            let leftHeader=document.querySelectorAll("span.nav-icon>svg,span.nav-icon>i");let leftHeaderColorArr=["#7887EB","#ABDEF3", "#6CC3E8", "#86DEF3", "#7887EB", "#9BA8F5","#7988EC","#B3BCF5","#ABDEF3","#B3BCD7","#91D7F3","#7988EC","#9CD2E9","#9BA8F5","#B3BCF5"];leftHeader.forEach(tag=>{tagsColor=leftHeaderColorArr[Math.floor(Math.random()*leftHeaderColorArr.length)];tag.style.color=tagsColor});</script>';
+        }
+        if(Helper::options()->plugin('PrettyHandsome')->colorTag==1){
+            $color = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];
+            echo '<script>
+            let tags = document.querySelectorAll("#tag_cloud-2 a,.list-group-item .pull-right");let colorArr = ["#428BCA", "#AEDCAE", "#ECA9A7", "#DA99FF", "#FFB380", "#D9B999"];tags.forEach(tag =>{tagsColor = colorArr[Math.floor(Math.random() * colorArr.length)];tag.style.backgroundColor = tagsColor;tag.style.color = "#ffffff"});</script>';
+        }
         // 鼠标点击特效
         if(Helper::options()->plugin('PrettyHandsome')->clickWord==1){
             echo '<script type="text/javascript"> 
-            /* 鼠标特效 */
             var a_idx = 0; 
             jQuery(document).ready(function($) { 
                 $("body").click(function(e) { 
