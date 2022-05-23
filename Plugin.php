@@ -69,9 +69,10 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($typefire);
         $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('显示全站字数、在线人数、响应耗时和访客总数'), '');
         $form->addInput($siteInfo);
+        
+        // complete
         $colorToc = new Typecho_Widget_Helper_Form_Element_Radio('colorToc', array(0 => '关闭', 1 => '开启'), 0, _t('彩色目录图标'), '');
         $form->addInput($colorToc);
-        // complete
         $colorTag = new Typecho_Widget_Helper_Form_Element_Radio('colorTag', array(0 => '关闭', 1 => '开启'), 0, _t('彩色标签'), '');
         $form->addInput($colorTag);
         $avatarCircle = new Typecho_Widget_Helper_Form_Element_Radio('avatarCircle', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标经过头像旋转和放大'), '');
