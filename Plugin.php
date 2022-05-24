@@ -381,10 +381,11 @@ HTML;
             </script>';
         }
         if(Helper::options()->plugin('PrettyHandsome')->copyTip==1){
+            /* $author = Helper::options()->plugin('PrettyHandsome')->copyAuthor */
             echo '<script>
             kaygb_copy();function kaygb_copy(){$(document).ready(function(){$("body").bind("copy",function(e){hellolayer()})});var sitesurl=window.location.href;function hellolayer(){
             $.message({
-                message: "尊重原创，转载请注明出处！<br> 本文作者：苏为歌<br>原文链接：<br>"+sitesurl,
+                message: "尊重原创，转载请注明出处！<br>"+sitesurl,
                 title: "复制成功",
                 type: "success",
                 autoHide: !1,
