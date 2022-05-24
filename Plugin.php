@@ -118,7 +118,7 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
-        echo '<script src="https://cdn.bootcdn.net/ajax/libs/jquery/2.2.4/jquery.min.js"></script>';
+        echo '<script src="http://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
 
         if(Helper::options()->plugin('PrettyHandsome')->indexPostWave==1){
             echo <<<CSS
@@ -190,7 +190,7 @@ CSS;
 
         if(Helper::options()->plugin('PrettyHandsome')->timeinfo==1){
             echo '<style>
-            .sidebar-count .content{padding:15px}.sidebar-count .content .item{margin-bottom:15px}.sidebar-count .content .item:last-child{margin-bottom:0}.sidebar-count .content .item .title{font-size:12px;color:var(--minor);margin-bottom:5px;display:flex;align-items:center}.sidebar-count .content .item .title span{color:var(--theme);font-weight:500;font-size:14px;margin:0 5px}.sidebar-count .content .item .progress{display:flex;align-items:center}.sidebar-count .content .item .progress .progress-bar{height:10px;border-radius:5px;overflow:hidden;background:var(--classC);width:0;min-width:0;flex:1;margin-right:5px}@keyframes progress{0%{background-position:0 0}100%{background-position:30px 0}}.sidebar-count .content .item .progress .progress-bar .progress-inner{width:0;height:100%;border-radius:5px;transition:width .35s;-webkit-animation:progress 750ms linear infinite;animation:progress 750ms linear infinite}.sidebar-count .content .item .progress .progress-bar .progress-inner-1{background:#bde6ff;background-image:linear-gradient(135deg,#50bfff 25%,transparent 25%,transparent 50%,#50bfff 50%,#50bfff 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-2{background:#ffd980;background-image:linear-gradient(135deg,#f7ba2a 25%,transparent 25%,transparent 50%,#f7ba2a 50%,#f7ba2a 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-3{background:#ffa9a9;background-image:linear-gradient(135deg,#ff4949 25%,transparent 25%,transparent 50%,#ff4949 50%,#ff4949 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-4{background:#67c23a;background-image:linear-gradient(135deg,#4f9e28 25%,transparent 25%,transparent 50%,#4f9e28 50%,#4f9e28 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-percentage{color:var(--info)}#time_info{padding-bottom:0}
+            .sidebar-count .content{padding:15px}.sidebar-count .content .item{margin-bottom:15px}.sidebar-count .content .item:last-child{margin-bottom:0}.sidebar-count .content .item .title{font-size:12px;color:var(--minor);margin-bottom:5px;display:flex;align-items:center}.sidebar-count .content .item .title span{color:var(--theme);font-weight:500;font-size:14px;margin:0 5px}.sidebar-count .content .item .progress{display:flex;align-items:center}.sidebar-count .content .item .progress .progress-bar{height:10px;border-radius:5px;overflow:hidden;background:var(--classC);width:0;min-width:0;flex:1;margin-right:5px}@keyframes progress{0%{background-position:0 0}100%{background-position:30px 0}}.sidebar-count .content .item .progress .progress-bar .progress-inner{width:0;height:100%;border-radius:5px;transition:width .35s;-webkit-animation:progress 750ms linear infinite;animation:progress 750ms linear infinite}.sidebar-count .content .item .progress .progress-bar .progress-inner-1{background:#bde6ff;background-image:linear-gradient(135deg,#50bfff 25%,transparent 25%,transparent 50%,#50bfff 50%,#50bfff 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-2{background:#ffd980;background-image:linear-gradient(135deg,#f7ba2a 25%,transparent 25%,transparent 50%,#f7ba2a 50%,#f7ba2a 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-3{background:#ffa9a9;background-image:linear-gradient(135deg,#ff4949 25%,transparent 25%,transparent 50%,#ff4949 50%,#ff4949 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-bar .progress-inner-4{background:#67c23a;background-image:linear-gradient(135deg,#4f9e28 25%,transparent 25%,transparent 50%,#4f9e28 50%,#4f9e28 75%,transparent 75%,transparent 100%);background-size:30px 30px}.sidebar-count .content .item .progress .progress-percentage{color:var(--info);padding-right:5px}#time_info{padding-bottom:0}
             </style>';
             echo '<script type="text/javascript">
             function AddTimeInfo() {
@@ -290,6 +290,10 @@ CSS;
      *@return void
      */
     public static function footer() {
+
+        if(Helper::options()->plugin('PrettyHandsome')->siteInfo==1){
+            echo '<script>TotalVisit();ResponseTime();</script>';
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->siteSpendTime==1 ){
             echo '<script>
