@@ -50,12 +50,10 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function config(Form $form)
     {
         /** 抖音解析API */
-        // $dyapi = new Text('dyapi', null, 'http://example.com/?url=', _t('抖音解析API'));
-        $dyapi = new Text('dyapi', null, 'https://jx.parwix.com:4433/player/?url=', _t('抖音解析API'));
+        $dyapi = new Text('dyapi', null, 'http://example.com/?url=', _t('抖音解析API'));
         $form->addInput($dyapi);
         /** 抖音解析API */
-        // $videoapi = new Text('videoapi', null, 'http://example.com/?url=', _t('其他视频云解析API'));
-        $videoapi = new Text('videoapi', null, 'https://jx.parwix.com:4433/player/?url=', _t('其他视频云解析API'));
+        $videoapi = new Text('videoapi', null, 'http://example.com/?url=', _t('其他视频云解析API'));
         $form->addInput($videoapi);
         $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('响应耗时和访客总数'), '');
         $form->addInput($siteInfo);
