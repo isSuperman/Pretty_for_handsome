@@ -91,6 +91,8 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($siteSpendTime);
         $siteBegin = new Text('siteBegin', null, '2020-01-09', _t('网站开始时间'),'严格按照给定格式填写');
         $form->addInput($siteBegin);
+        // $baiduTest = new Typecho_Widget_Helper_Form_Element_Radio('baiduTest', array(0 => '关闭', 1 => '开启'), 0, _t('百度收录检测'), '');
+        // $form->addInput($baiduTest);
     }
 
     /**
@@ -116,7 +118,37 @@ class PrettyHandsome_Plugin implements PluginInterface
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
-        echo '<script src="http://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+        echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+
+        if(Helper::options()->plugin('PrettyHandsome')->baiduTest==1){
+            echo <<<HTML
+            <script>
+                let baiduapi = window.location.origin;
+                function baidu_check() {
+                var url = window.location.href;
+                $.getJSON(baiduapi+"/usr/plugins/PrettyHandsome/func/baidu.php?domain=" + url, function (result) { 
+                    if (result.code == 200) {
+                        $('#baidu_icon').removeClass('glyphicon-refresh');
+                        $('#baidu_icon').addClass('glyphicon-ok-circle');
+                        $('#baidu_result').text('百度已收录');
+                    } else if (result.code == 403) {
+                        $('#baidu_icon').removeClass('glyphicon-refresh');
+                        $('#baidu_icon').addClass('glyphicon-info-sign');
+                        /*$('#baidu_result').text('百度未收录');*/
+                        $('#baidu_result').html('<a style="color:red;" rel="external nofollow" title="点击提交收录！" target="_blank" href="https://ziyuan.baidu.com/linksubmit/url?sitename='+url+'">百度未收录</a>'); 
+                    } else {
+                        $('#baidu_icon').removeClass('glyphicon-refresh');
+                        $('#baidu_icon').addClass('glyphicon-remove-circle');
+                    }
+                })
+            }
+            var localUrl = window.location.href; 
+            var regex = new RegExp("^https?://(test-)?www\.4008000000.com(/?|/index[(.|_)].*|/?[?].*)$", "i");
+            if(!regex.test(localUrl)){baidu_check()};
+            </script>
+HTML;
+            Helper::options()->ChangeAction .= "var localUrl = window.location.href; var regex = new RegExp(\"^https?://(test-)?www\\.4008000000.com(/?|/index[(.|_)].*|/?[?].*)$\", \"i\");if(!regex.test(localUrl)){baidu_check()};";
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->indexPostWave==1){
             echo <<<CSS
@@ -161,7 +193,7 @@ CSS;
                     $("ul.list-group.box-shadow-wrap-normal").append("<li class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$user.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">'.STATIC::TotalVisit().'</span>访客总数</li>");
                     });
                 }
-            TotalVisit();
+            //TotalVisit();
             function AS_ResTime(){
                 let ResTime = window.performance;
                 function consume(time) {
@@ -181,7 +213,7 @@ CSS;
                      $("ul.list-group.box-shadow-wrap-normal").append("<li class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$time.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">"+res+"</span>响应耗时</li>");
                  });
            }
-           ResponseTime();
+           //ResponseTime();
             </script>';
             Helper::options()->ChangeAction .= "TotalVisit();ResponseTime();";
         }
@@ -288,6 +320,14 @@ CSS;
      *@return void
      */
     public static function footer() {
+        if(Helper::options()->plugin('PrettyHandsome')->baiduTest==1){
+            echo <<<HTML
+            <script>
+                $("#small_widgets > ul > li.meta-categories").after('</span><span class="meta-value" id="baidu_result">加载中</span>');
+            </script>
+HTML;
+            
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->siteInfo==1){
             echo '<script>TotalVisit();ResponseTime();</script>';
