@@ -91,6 +91,8 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($siteSpendTime);
         $siteBegin = new Text('siteBegin', null, '2020-01-09', _t('网站开始时间'),'严格按照给定格式填写');
         $form->addInput($siteBegin);
+        $postEndMark = new Typecho_Widget_Helper_Form_Element_Radio('postEndMark', array(0 => '关闭', 1 => '开启'), 0, _t('文章end标识'), '');
+        $form->addInput($postEndMark);
     }
 
     /**
@@ -117,6 +119,23 @@ class PrettyHandsome_Plugin implements PluginInterface
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+
+        if(Helper::options()->plugin('PrettyHandsome')->postEndMark==1){
+            echo <<<HTML
+            <style>
+            .tt-fenge-end{border-top: 2px dotted #eee;height: 0px;margin: 35px 0px;text-align: center;width: 100%;line-height: 1.6em;}
+            .tt-fenge-end span{background-color: #23b7e5;color: #fff;padding: 2px 8px;position: relative;top: -14px;border-radius: 12px;font-size: 12px;}
+            html.theme-dark .tt-fenge-end{border-top: 2px dotted #4f4f4f;}
+            </style>
+            <script>
+            function addEndMark(){
+                $("#post-content > div.show-foot").before('<div class="tt-fenge-end"><span>本文至此结束</span></div>')
+            }
+            addEndMark()
+            </script>
+HTML;
+            Helper::options()->ChangeAction .= 'addEndMark();';
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->indexPostWave==1){
             echo <<<CSS
@@ -288,6 +307,12 @@ CSS;
      *@return void
      */
     public static function footer() {
+
+        if(Helper::options()->plugin('PrettyHandsome')->postEndMark==1){
+            echo <<<HTML
+            <script><div class="tt-fenge-end"><span>End</span></div></script>
+HTML;
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->siteInfo==1){
             echo '<script>TotalVisit();ResponseTime();</script>';
