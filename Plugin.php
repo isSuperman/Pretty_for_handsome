@@ -93,6 +93,8 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($siteBegin);
         $postEndMark = new Typecho_Widget_Helper_Form_Element_Radio('postEndMark', array(0 => '关闭', 1 => '开启'), 0, _t('文章end标识'), '');
         $form->addInput($postEndMark);
+        $postQRcode = new Typecho_Widget_Helper_Form_Element_Radio('postQRcode', array(0 => '关闭', 1 => '开启'), 0, _t('文章二维码'), '');
+        $form->addInput($postQRcode);
     }
 
     /**
@@ -117,8 +119,57 @@ class PrettyHandsome_Plugin implements PluginInterface
      */
     public static function header() {
         $cssUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/css/style.css';
+        $qrcodejsUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/js/qrcode.min.js';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+
+        if(Helper::options()->plugin('PrettyHandsome')->postQRcode==1){
+            echo <<<CSS
+            <style>
+                #qrcodediv {
+                    display:inline;
+                }
+                #qrcode{
+                    display:none;
+                    position:absolute;
+                    right:0;
+                    z-index:auto;
+                    background-color:#ffffff;
+                    padding:10px;
+                    box-shadow: 10px 10px 15px #888888;
+                }
+                #qrcodediv #qucodeicon:hover{
+                    cursor:pointer;
+                }
+                #qrcodediv:hover #qrcode{
+                    display: block;
+                }
+                html-theme-dark #qrcode{
+                    background-color:#cccccc;
+                }
+            </style>
+CSS;
+            echo '<script src="'.$qrcodejsUrl.'"></script>';
+            echo <<<HTML
+            <script>
+                function addQRCodeIcon(){
+                    $("#small_widgets > h1 > a:nth-child(3)").after('<div id="qrcodediv"><span id="qucodeicon" class="m-l-sm superscript" href="javascript:void(0);" target="_blank"><svg t="1653553296895" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5854" width="16" height="16"><path d="M85.312 85.312V384H384V85.312H85.312zM0 0h469.248v469.248H0V0z m170.624 170.624h128v128h-128v-128zM0 554.624h469.248v469.248H0V554.624z m85.312 85.312v298.624H384V639.936H85.312z m85.312 85.312h128v128h-128v-128zM554.624 0h469.248v469.248H554.624V0z m85.312 85.312V384h298.624V85.312H639.936z m383.936 682.56H1024v85.376h-298.752V639.936H639.936V1023.872H554.624V554.624h255.936v213.248h128V554.624h85.312v213.248z m-298.624-597.248h128v128h-128v-128z m298.624 853.248h-85.312v-85.312h85.312v85.312z m-213.312 0h-85.312v-85.312h85.312v85.312z" fill="#262626" p-id="5855"></path></svg></span><div id="qrcode"></div></div>')
+                }
+                function generateQRCode(){
+                    var qrcode = new QRCode("qrcode", {
+                        text: window.location.href,
+                        width: 100,
+                        height: 100,
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
+                    });
+                }
+                addQRCodeIcon()
+            </script>
+HTML;
+            Helper::options()->ChangeAction .= 'addQRCodeIcon();if($("#qrcode").length){generateQRCode();}';
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->postEndMark==1){
             echo <<<HTML
@@ -211,7 +262,7 @@ CSS;
             </style>';
             echo '<script type="text/javascript">
             function AddTimeInfo() {
-                $("#widget-tabs-4-hots").before(\'<section id="time_info"class="widget widget_categories wrapper-md clear"><div class="sidebar sidebar-count"><div class="content"><div class="item"id="dayProgress"><div class="title">今日已经过去<span></span>小时</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-1"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="weekProgress"><div class="title">这周已经过去<span></span>天</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-2"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="monthProgress"><div class="title">本月已经过去<span></span>天</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-3"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="yearProgress"><div class="title">今年已经过去<span></span>个月</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-4"></div></div><div class="progress-percentage"></div></div></div></div></div></section>\')
+                $("#widget-tabs-4-hots").after(\'<section id="time_info"class="widget widget_categories wrapper-md clear"><h5 class="widget-title m-t-none text-md">时间流逝</h5><div class="sidebar sidebar-count"><div class="content"><div class="item"id="dayProgress"><div class="title">今日已经过去<span></span>小时</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-1"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="weekProgress"><div class="title">这周已经过去<span></span>天</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-2"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="monthProgress"><div class="title">本月已经过去<span></span>天</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-3"></div></div><div class="progress-percentage"></div></div></div><div class="item"id="yearProgress"><div class="title">今年已经过去<span></span>个月</div><div class="progress"><div class="progress-bar"><div class="progress-inner progress-inner-4"></div></div><div class="progress-percentage"></div></div></div></div></div></section>\')
                 function getAsideLifeTime() {
                     let nowDate = +new Date();
                     let todayStartDate = new Date(new Date().toLocaleDateString()).getTime();
@@ -308,9 +359,12 @@ CSS;
      */
     public static function footer() {
 
-        if(Helper::options()->plugin('PrettyHandsome')->postEndMark==1){
+        if(Helper::options()->plugin('PrettyHandsome')->postQRcode==1){
             echo <<<HTML
-            <script><div class="tt-fenge-end"><span>End</span></div></script>
+            <script>
+            addQRCodeIcon();
+            if($("#qrcode").length){generateQRCode();}
+            </script>
 HTML;
         }
 
