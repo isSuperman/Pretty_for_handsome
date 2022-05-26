@@ -127,25 +127,48 @@ class PrettyHandsome_Plugin implements PluginInterface
             echo <<<CSS
             <style>
                 #qrcodediv {
-                    display:inline;
+                    position: relative;
+                    display: inline-block;
                 }
-                #qrcode{
-                    display:none;
-                    position:absolute;
-                    right:0;
-                    z-index:auto;
-                    background-color:#ffffff;
-                    padding:10px;
-                    box-shadow: 10px 10px 15px #888888;
+                #qrcodediv #qrdiv{
+                    display: none;
+                    -webkit-appearance: none;
+                    width: 0px;
+                    background-color: #FFFFFF;
+                    color: #000000;
+                    text-align: center;
+                    padding: 10px 10px 0;
+                    box-shadow: 6px 6px 20px #cccccc;
+                    border-radius: 12px;
+                    font-size: 15px;
+                    position: absolute;
+                    z-index: 1;
+                    top: 100%;
+                    left: 50%;
+                    margin-left: -60px;
+                    
                 }
-                #qrcodediv #qucodeicon:hover{
-                    cursor:pointer;
+                #qrdiv #qrtext{
+                    padding-top: 8px;
+                    padding-bottom: 8px;
+                    font-size: 14px;
+                    font-weight: bold;
                 }
-                #qrcodediv:hover #qrcode{
-                    display: block;
+                #qrcodediv span svg {
+                    fill: currentColor;
                 }
-                html-theme-dark #qrcode{
-                    background-color:#cccccc;
+                @media(any-hover:hover){
+                    #qrcodediv #qucodeicon:hover{
+                        cursor:pointer;
+                    }
+                    #qrcodediv:hover #qrdiv{
+                        width:120px;
+                        display: block;
+                    }
+                }
+                html.theme-dark #qrdiv{
+                    box-shadow: 0 0 0 #cccccc;
+                    
                 }
             </style>
 CSS;
@@ -153,7 +176,12 @@ CSS;
             echo <<<HTML
             <script>
                 function addQRCodeIcon(){
-                    $("#small_widgets > h1 > a:nth-child(3)").after('<div id="qrcodediv"><span id="qucodeicon" class="m-l-sm superscript" href="javascript:void(0);" target="_blank"><svg t="1653553296895" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5854" width="16" height="16"><path d="M85.312 85.312V384H384V85.312H85.312zM0 0h469.248v469.248H0V0z m170.624 170.624h128v128h-128v-128zM0 554.624h469.248v469.248H0V554.624z m85.312 85.312v298.624H384V639.936H85.312z m85.312 85.312h128v128h-128v-128zM554.624 0h469.248v469.248H554.624V0z m85.312 85.312V384h298.624V85.312H639.936z m383.936 682.56H1024v85.376h-298.752V639.936H639.936V1023.872H554.624V554.624h255.936v213.248h128V554.624h85.312v213.248z m-298.624-597.248h128v128h-128v-128z m298.624 853.248h-85.312v-85.312h85.312v85.312z m-213.312 0h-85.312v-85.312h85.312v85.312z" fill="#262626" p-id="5855"></path></svg></span><div id="qrcode"></div></div>')
+                    if($("#small_widgets > h1 > a:nth-child(3)").length){
+                        $("#small_widgets > h1 > a:nth-child(3)").after('<div id="qrcodediv"><span id="qucodeicon" class="m-l-sm superscript" href="javascript:void(0);" target="_blank"><svg t="1653553296895" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5854" width="16" height="16"><path d="M85.312 85.312V384H384V85.312H85.312zM0 0h469.248v469.248H0V0z m170.624 170.624h128v128h-128v-128zM0 554.624h469.248v469.248H0V554.624z m85.312 85.312v298.624H384V639.936H85.312z m85.312 85.312h128v128h-128v-128zM554.624 0h469.248v469.248H554.624V0z m85.312 85.312V384h298.624V85.312H639.936z m383.936 682.56H1024v85.376h-298.752V639.936H639.936V1023.872H554.624V554.624h255.936v213.248h128V554.624h85.312v213.248z m-298.624-597.248h128v128h-128v-128z m298.624 853.248h-85.312v-85.312h85.312v85.312z m-213.312 0h-85.312v-85.312h85.312v85.312z" p-id="5855"></path></svg></span><div id="qrdiv"><div id="qrcode"></div><div id="qrtext">扫码阅读本文</div></div></div>')
+                    }else{
+                        $("#small_widgets > h1 > a:nth-child(2)").after('<div id="qrcodediv"><span id="qucodeicon" class="m-l-sm superscript" href="javascript:void(0);" target="_blank"><svg t="1653553296895" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5854" width="16" height="16"><path d="M85.312 85.312V384H384V85.312H85.312zM0 0h469.248v469.248H0V0z m170.624 170.624h128v128h-128v-128zM0 554.624h469.248v469.248H0V554.624z m85.312 85.312v298.624H384V639.936H85.312z m85.312 85.312h128v128h-128v-128zM554.624 0h469.248v469.248H554.624V0z m85.312 85.312V384h298.624V85.312H639.936z m383.936 682.56H1024v85.376h-298.752V639.936H639.936V1023.872H554.624V554.624h255.936v213.248h128V554.624h85.312v213.248z m-298.624-597.248h128v128h-128v-128z m298.624 853.248h-85.312v-85.312h85.312v85.312z m-213.312 0h-85.312v-85.312h85.312v85.312z" p-id="5855"></path></svg></span><div id="qrcode"></div></div>')
+                    }
+                    
                 }
                 function generateQRCode(){
                     var qrcode = new QRCode("qrcode", {
@@ -165,7 +193,7 @@ CSS;
                         correctLevel: QRCode.CorrectLevel.H
                     });
                 }
-                addQRCodeIcon()
+                addQRCodeIcon();
             </script>
 HTML;
             Helper::options()->ChangeAction .= 'addQRCodeIcon();if($("#qrcode").length){generateQRCode();}';
@@ -361,10 +389,14 @@ CSS;
 
         if(Helper::options()->plugin('PrettyHandsome')->postQRcode==1){
             echo <<<HTML
-            <script>
-            addQRCodeIcon();
-            if($("#qrcode").length){generateQRCode();}
+            <script>addQRCodeIcon();if($("#qrcode").length){generateQRCode();}
             </script>
+HTML;
+        }
+
+        if(Helper::options()->plugin('PrettyHandsome')->postEndMark==1){
+            echo <<<HTML
+            <script>addEndMark()</script>
 HTML;
         }
 
