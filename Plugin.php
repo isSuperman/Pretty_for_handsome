@@ -13,10 +13,10 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
 /**
  * <strong style="color:#28B7FF;font-family: 楷体;">Handsome主题美化专用</strong>
  *<div class="prettyHandsome"><a style="width:fit-content" id="prettyHandsome">版本检测中..</div>&nbsp;</div><style>.prettyHandsome {    margin-top: 5px;}.prettyHandsome a {    background: #00BFFF;    padding: 5px;    color: #fff;}</style>
- * <script>var prettyHandsome="1.0.3";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
+ * <script>var prettyHandsome="1.0.4";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
  * @package PrettyHandsome
  * @author <strong style="color:#28B7FF;font-family: 楷体;">isSuperman</strong>
- * @version 1.0.3
+ * @version 1.0.4
  * @link https://github.com/isSuperman/Pretty_for_handsome
  */
 class PrettyHandsome_Plugin implements PluginInterface
@@ -32,7 +32,6 @@ class PrettyHandsome_Plugin implements PluginInterface
         Typecho_Plugin::factory('Widget_Archive')->footer = array(__CLASS__, 'footer');
         Typecho_Plugin::factory('admin/write-post.php')->bottom = array(__CLASS__, 'insertHeader');
         Typecho_Plugin::factory('admin/write-page.php')->bottom = array(__CLASS__, 'insertHeader');
-
     }
 
     /**
@@ -95,6 +94,8 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($postEndMark);
         $postQRcode = new Typecho_Widget_Helper_Form_Element_Radio('postQRcode', array(0 => '关闭', 1 => '开启'), 0, _t('文章二维码'), '');
         $form->addInput($postQRcode);
+        $baiduPush = new Typecho_Widget_Helper_Form_Element_Radio('baiduPush', array(0 => '关闭', 1 => '开启'), 0, _t('百度手动提交'), '在文章底部修改日期旁边增加手动提交百度按钮');
+        $form->addInput($baiduPush);
     }
 
     /**
@@ -122,6 +123,18 @@ class PrettyHandsome_Plugin implements PluginInterface
         $qrcodejsUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/js/qrcode.min.js';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+
+        if(Helper::options()->plugin('PrettyHandsome')->baiduPush==1){
+            echo <<<HTML
+            <script>
+                function addPushToBaiduBtn(){
+                    $("#post-content > div.show-foot > div.notebook").after('<a style="padding-left:2px;font-size:12px;color:#9b9b9b;text-decoration:underline;" rel="external nofollow" title="点击提交收录！" target="_blank" href="https://ziyuan.baidu.com/linksubmit/url?sitename='+window.location.href+'">点击提交百度</a>')
+                }
+                addPushToBaiduBtn()
+            </script>
+HTML;
+            Helper::options()->ChangeAction .= 'if($("#post-content > div.show-foot > div.notebook").length){addPushToBaiduBtn();}';
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->postQRcode==1){
             echo <<<CSS
@@ -392,6 +405,14 @@ CSS;
      *@return void
      */
     public static function footer() {
+
+        if(Helper::options()->plugin('PrettyHandsome')->baiduPush==1){
+            echo <<<HTML
+            <script>
+            if($("#post-content > div.show-foot > div.notebook").length){addPushToBaiduBtn();}
+            </script>
+HTML;
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->postQRcode==1){
             echo <<<HTML
