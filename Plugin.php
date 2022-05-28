@@ -13,10 +13,10 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
 /**
  * <strong style="color:#28B7FF;font-family: 楷体;">Handsome主题美化专用</strong>
  *<div class="prettyHandsome"><a style="width:fit-content" id="prettyHandsome">版本检测中..</div>&nbsp;</div><style>.prettyHandsome {    margin-top: 5px;}.prettyHandsome a {    background: #00BFFF;    padding: 5px;    color: #fff;}</style>
- * <script>var prettyHandsome="1.0.4";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
+ * <script>var prettyHandsome="1.0.5";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
  * @package PrettyHandsome
  * @author <strong style="color:#28B7FF;font-family: 楷体;">isSuperman</strong>
- * @version 1.0.4
+ * @version 1.0.5
  * @link https://github.com/isSuperman/Pretty_for_handsome
  */
 class PrettyHandsome_Plugin implements PluginInterface
@@ -96,6 +96,10 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput($postQRcode);
         $baiduPush = new Typecho_Widget_Helper_Form_Element_Radio('baiduPush', array(0 => '关闭', 1 => '开启'), 0, _t('百度手动提交'), '在文章底部修改日期旁边增加手动提交百度按钮');
         $form->addInput($baiduPush);
+        $siteBlackWhite = new Typecho_Widget_Helper_Form_Element_Radio('siteBlackWhite', array(0 => '关闭', 1 => '开启'), 0, _t('全站黑白模式'), '适合某些日期开启');
+        $form->addInput($siteBlackWhite);
+        $postCopyrightTip = new Typecho_Widget_Helper_Form_Element_Radio('postCopyrightTip', array(0 => '关闭', 1 => '开启'), 0, _t('文章版权提示'), '位于文章底部');
+        $form->addInput($postCopyrightTip);
     }
 
     /**
@@ -123,6 +127,28 @@ class PrettyHandsome_Plugin implements PluginInterface
         $qrcodejsUrl = Helper::options() -> rootUrl . '/usr/plugins/PrettyHandsome/static/js/qrcode.min.js';
         echo '<link rel="stylesheet" type="text/css" href="' . $cssUrl . '" />';
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
+
+        if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip==1){
+            echo <<<HTML
+            <script>
+                function addCopyrightTip(){
+                    $("#post-content > div.support-author").before('<div class="entry-content l-h-2x"><div style="padding: 10px;background: rgba(220, 220, 220, 0.22);font-size: 13px;border-left: 3px solid;text-align: left;"><span>© 版权说明：若无注明，皆为原创，转载请保留文章出处。</span></div></div>')
+                }
+                addCopyrightTip();
+            </script>
+HTML;
+            Helper::options()->ChangeAction .= 'if($("#post-content > div.support-author").length){addCopyrightTip();}';
+        }
+
+        if(Helper::options()->plugin('PrettyHandsome')->siteBlackWhite==1){
+            echo <<<CSS
+            <style>
+            html {-webkit-filter: grayscale(100%);filter:progid:DXImageTransform.Microsoft.BasicImage(graysale=1);}
+            html { filter:progidXImageTransform.Microsoft.BasicImage(grayscale=1); }
+            html{ filter: grayscale(100%); -webkit-filter: grayscale(100%); -moz-filter: grayscale(100%); -ms-filter: grayscale(100%); -o-filter: grayscale(100%); filter: url("data:image/svg+xml;utf8,#grayscale"); filter:progid:DXImageTransform.Microsoft.BasicImage(grayscale=1); -webkit-filter: grayscale(1);}
+            </style>
+CSS;
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->baiduPush==1){
             echo <<<HTML
@@ -405,6 +431,14 @@ CSS;
      *@return void
      */
     public static function footer() {
+
+        if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip==1){
+            echo <<<HTML
+            <script>
+            if($("#post-content > div.support-author").length){addCopyrightTip();}
+            </script>
+HTML;
+        }
 
         if(Helper::options()->plugin('PrettyHandsome')->baiduPush==1){
             echo <<<HTML
