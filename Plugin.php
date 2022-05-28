@@ -128,7 +128,7 @@ class PrettyHandsome_Plugin implements PluginInterface
             echo <<<HTML
             <script>
                 function addPushToBaiduBtn(){
-                    $("#post-content > div.show-foot > div.notebook").after('<a style="padding-left:2px;font-size:12px;color:#9b9b9b;text-decoration:underline;" rel="external nofollow" title="点击提交收录！" target="_blank" href="https://ziyuan.baidu.com/linksubmit/url?sitename='+window.location.href+'">点击提交百度</a>')
+                    $("#post-content > div.show-foot > div.notebook").after('<a style="padding-left:2px;font-size:12px;color:#9b9b9b;" rel="external nofollow" title="点击提交百度收录！" target="_blank" href="https://ziyuan.baidu.com/linksubmit/url?sitename='+window.location.href+'">提交百度</a>')
                 }
                 addPushToBaiduBtn()
             </script>
