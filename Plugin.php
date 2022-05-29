@@ -130,9 +130,16 @@ class PrettyHandsome_Plugin implements PluginInterface
 
         if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip==1){
             echo <<<HTML
+            <style>
+            .tt-license {font-size: 12px;font-weight: 600;padding: 1rem;background-color: #f3f5f7;border-left: 3px solid #dde6e9;margin-bottom: 20px;}
+            .tt-license-icon {align-items: center;position: relative;float: left;margin: -10px -10px -10px 0;margin-right: 10px;overflow: hidden;text-align: center;display: flex;height: 40px;color: #ff5722;}
+            .tt-license a {color: #337ab7;text-decoration: underline;margin: 0 5px;}
+            html.theme-dark .tt-license {background-color: transparent;border-left: 3px solid #494949;}.tt-license p {line-height: 1.5em;margin: 5px 0!important;}
+            </style>
             <script>
                 function addCopyrightTip(){
-                    $("#post-content > div.support-author").before('<div class="entry-content l-h-2x"><div style="padding: 10px;background: rgba(220, 220, 220, 0.22);font-size: 13px;border-left: 3px solid;text-align: left;"><span>© 版权说明：若无注明，皆为原创，转载请保留文章出处。</span></div></div>')
+                    let postLink = window.location.href;
+                    $("#post-content > div.support-author").before('<div class="tt-license"><p><span class="tt-license-icon"><i data-feather="link"></i></span>本文链接：' + postLink + '</a></p><p><span class="tt-license-icon"><i data-feather="shield"></i></span>除非注明，本作品采用<a rel="license nofollow" href="http://creativecommons.org/licenses/by-nc-sa/4.0/">知识共享署名-非商业性使用-相同方式共享 4.0 国际许可协议</a></p><p><span class="tt-license-icon"><i data-feather="alert-circle"></i></span>声明：转载请注明文章来源</p></div>')
                 }
                 addCopyrightTip();
             </script>
