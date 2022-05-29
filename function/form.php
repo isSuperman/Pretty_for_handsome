@@ -1,5 +1,9 @@
 <?php
 
+use Typecho\Widget\Helper\Form;
+use Typecho\Widget\Helper\Form\Element\Text;
+use Widget\Options;
+
 /*
  * 作者：isSuperman
  * 地址：https://github.com/isSuperman/Pretty_for_handsome
