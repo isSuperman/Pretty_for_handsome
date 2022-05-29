@@ -10,6 +10,9 @@ if (!defined('__TYPECHO_ROOT_DIR__')) {
     exit;
 }
 
+include 'function/header.php';
+include 'function/footer.php';
+
 /**
  * <strong style="color:#28B7FF;font-family: 楷体;">Handsome主题美化专用</strong>
  *<div class="prettyHandsome"><a style="width:fit-content" id="prettyHandsome">版本检测中..</div>&nbsp;</div><style>.prettyHandsome {    margin-top: 5px;}.prettyHandsome a {    background: #00BFFF;    padding: 5px;    color: #fff;}</style>
@@ -48,58 +51,76 @@ class PrettyHandsome_Plugin implements PluginInterface
      */
     public static function config(Form $form)
     {
-        /** 抖音解析API */
-        $dyapi = new Text('dyapi', null, 'http://example.com/?url=', _t('抖音解析API'));
-        $form->addInput($dyapi);
-        /** 抖音解析API */
-        $videoapi = new Text('videoapi', null, 'http://example.com/?url=', _t('其他视频云解析API'));
-        $form->addInput($videoapi);
-        $siteInfo = new Typecho_Widget_Helper_Form_Element_Radio('siteInfo', array(0 => '关闭', 1 => '开启'), 0, _t('响应耗时和访客总数'), '');
-        $form->addInput($siteInfo);
-        $timeinfo = new Typecho_Widget_Helper_Form_Element_Radio('timeinfo', array(0 => '关闭', 1 => '开启'), 0, _t('右侧边栏时光流逝模块'), '');
-        $form->addInput($timeinfo);
-        $weather = new Typecho_Widget_Helper_Form_Element_Radio('weather', array(0 => '关闭', 1 => '开启'), 0, _t('顶部导航栏天气'), '登录<a href="https://www.seniverse.com">心知天气官网</a>注册申请免费API 密钥');
-        $form->addInput($weather);
-        $weatherUID = new Text('weatherUID', null, '', _t('心知天气公钥'));
-        $form->addInput($weatherUID);
-        $weatherHash = new Text('weatherHash', null, '', _t('心知天气私钥'));
-        $form->addInput($weatherHash);
-        $colorToc = new Typecho_Widget_Helper_Form_Element_Radio('colorToc', array(0 => '关闭', 1 => '开启'), 0, _t('彩色目录图标'), '');
-        $form->addInput($colorToc);
-        $colorTag = new Typecho_Widget_Helper_Form_Element_Radio('colorTag', array(0 => '关闭', 1 => '开启'), 0, _t('彩色标签'), '');
-        $form->addInput($colorTag);
-        $avatarCircle = new Typecho_Widget_Helper_Form_Element_Radio('avatarCircle', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标经过头像旋转和放大'), '');
-        $form->addInput($avatarCircle);
-        $clickWord = new Typecho_Widget_Helper_Form_Element_Radio('clickWord', array(0 => '关闭', 1 => '开启'), 0, _t('鼠标点击特效'), '');
-        $form->addInput($clickWord);
-        $titleCenter = new Typecho_Widget_Helper_Form_Element_Radio('titleCenter', array(0 => '关闭', 1 => '开启'), 0, _t('文章标题居中'), '');
-        $form->addInput($titleCenter);
-        $logoScan = new Typecho_Widget_Helper_Form_Element_Radio('logoScan', array(0 => '关闭', 1 => '开启'), 0, _t('LOGO扫光'), '');
-        $form->addInput($logoScan);
-        $copyTip = new Typecho_Widget_Helper_Form_Element_Radio('copyTip', array(0 => '关闭', 1 => '开启'), 0, _t('复制成功提示'), '');
-        $form->addInput($copyTip);
-        $htitlebg = new Text('htitlebg', null, '0,191,255', _t('H1/H2标题背景颜色'),'RGB颜色代码');
-        $form->addInput($htitlebg);
-        $zanBump = new Typecho_Widget_Helper_Form_Element_Radio('zanBump', array(0 => '关闭', 1 => '开启'), 0, _t('打赏按钮跳动'), '');
-        $form->addInput($zanBump);
-        $mobileHideInfo = new Typecho_Widget_Helper_Form_Element_Radio('mobileHideInfo', array(0 => '关闭', 1 => '开启'), 0, _t('移动端禁止显示标签云和博客信息'), '');
-        $form->addInput($mobileHideInfo);
-        $indexPostWave = new Typecho_Widget_Helper_Form_Element_Radio('indexPostWave', array(0 => '关闭', 1 => '开启'), 0, _t('首页文章鼠标经过上浮'), '');
-        $form->addInput($indexPostWave);
-        $siteSpendTime = new Typecho_Widget_Helper_Form_Element_Radio('siteSpendTime', array(0 => '关闭', 1 => '开启'), 0, _t('网站运行时间'), '在合适的地方添加代码<span style="color:red">&lt;span id="uptime"&gt;&lt;/span&gt;</span>');
-        $form->addInput($siteSpendTime);
-        $siteBegin = new Text('siteBegin', null, '2020-01-09', _t('网站开始时间'),'严格按照给定格式填写');
-        $form->addInput($siteBegin);
-        $postEndMark = new Typecho_Widget_Helper_Form_Element_Radio('postEndMark', array(0 => '关闭', 1 => '开启'), 0, _t('文章end标识'), '');
-        $form->addInput($postEndMark);
-        $postQRcode = new Typecho_Widget_Helper_Form_Element_Radio('postQRcode', array(0 => '关闭', 1 => '开启'), 0, _t('文章二维码'), '');
-        $form->addInput($postQRcode);
-        $baiduPush = new Typecho_Widget_Helper_Form_Element_Radio('baiduPush', array(0 => '关闭', 1 => '开启'), 0, _t('百度手动提交'), '在文章底部修改日期旁边增加手动提交百度按钮');
-        $form->addInput($baiduPush);
-        $siteBlackWhite = new Typecho_Widget_Helper_Form_Element_Radio('siteBlackWhite', array(0 => '关闭', 1 => '开启'), 0, _t('全站黑白模式'), '适合某些日期开启');
-        $form->addInput($siteBlackWhite);
-        $postCopyrightTip = new Typecho_Widget_Helper_Form_Element_Radio('postCopyrightTip', array(0 => '关闭', 1 => '开启'), 0, _t('文章版权提示'), '位于文章底部');
-        $form->addInput($postCopyrightTip);
+        // 抖音解析API
+        $form->addInput(PluginsForm::DouyinApi());
+
+        // 其他视频解析API
+        $form->addInput(PluginsForm::VideoApi());
+
+        // 响应耗时和访客总数
+        $form->addInput(PluginsForm::SiteInfo());
+
+        // 时光流逝
+        $form->addInput(PluginsForm::TimeInfo());
+
+        // 顶部导航栏天气
+        $form->addInput(PluginsForm::Weather());
+        $form->addInput(PluginsForm::WeatherUID());
+        $form->addInput(PluginsForm::WeatherHASH());
+
+        // 彩色目录图标
+        $form->addInput(PluginsForm::ColorToc());
+
+        // 彩色标签云
+        $form->addInput(PluginsForm::ColorTag());
+
+        // 鼠标经过头像旋转放大
+        $form->addInput(PluginsForm::AvatarCircle());
+
+        // 鼠标点击特效
+        $form->addInput(PluginsForm::ClickWord());
+
+        // 文章标题居中
+        $form->addInput(PluginsForm::TitleCenter());
+
+        // LOGO扫光
+        $form->addInput(PluginsForm::LogoScan());
+
+        // 复制成功提示
+        $form->addInput(PluginsForm::CopyTip());
+
+        // H1/H2标题背景颜色
+        $form->addInput(PluginsForm::HTitlebg());
+
+        // 打赏按钮跳动
+        $form->addInput(PluginsForm::ZanBump());
+
+        // 移动端禁止显示标签云和博客信息
+        $form->addInput(PluginsForm::MobileHideInfo());
+
+        // 首页文章鼠标经过上浮
+        $form->addInput(PluginsForm::IndexPostWave());
+
+        // 网站运行时间
+        $form->addInput(PluginsForm::SiteSpendTime());
+
+        // 网站开始时间
+        $form->addInput(PluginsForm::SiteBegin());
+
+        // 文章end标识
+        $form->addInput(PluginsForm::PostEndMark());
+
+        // 文章二维码
+        $form->addInput(PluginsForm::PostQRCode());
+
+        // 百度手动提交按钮
+        $form->addInput(PluginsForm::BaiduPushBtn());
+
+        // 全站黑白模式
+        $form->addInput(PluginsForm::SiteBlackWhite());
+
+        // 文章版权提示
+        $form->addInput(PluginsForm::PostCopyrightTip());
     }
 
     /**
