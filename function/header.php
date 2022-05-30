@@ -26,6 +26,17 @@ class PluginsHead{
         $headCss = '<style>';
         $headJs = '<script>';
 
+        // 评论头像呼吸效果
+        if(Helper::options()->plugin('PrettyHandsome')->commentAvatarBreath == 1){
+            $headCss .= '.comment-avatar{width:100px;border-radius:50%;animation:light 4s ease-in-out infinite;transition:0.5s}.comment-avatar img{border-radius:50%}.comment-avatar:hover{transform: scale(1.15) rotate(720deg);}@keyframes light{0%{box-shadow:0 0 4px #f00;}25%{box-shadow:0 0 16px #0f0;}50%{box-shadow:0 0 4px #00f;}75%{box-shadow:0 0 16px #0f0;}100%{box-shadow:0 0 4px #f00;}}';
+        }
+
+        // 评论框边框颜色
+        if(Helper::options()->plugin('PrettyHandsome')->commentBorder == 1){
+            $cRGB = Helper::options()->plugin('PrettyHandsome')->commentBorderRGB;
+            $headCss .= '.comment-parent{margin:10px 5px;padding:20px;border-radius:10px;border:1px solid rgba('.$cRGB.',.3);box-shadow:1px 1px 2px 1px rgba('.$cRGB.',.3)}';
+        }
+
         // 文章底部版权提示
         if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip == 1){
             $headCss .= '.tt-license {font-size: 12px;font-weight: 600;padding: 1rem;background-color: #f3f5f7;border-left: 3px solid #dde6e9;margin-bottom: 20px;}
