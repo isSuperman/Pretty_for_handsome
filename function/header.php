@@ -122,6 +122,11 @@ EOF;
             $headCss .= '@media(min-width:767px){.post-list .panel:not(article){transition:all .3s}.post-list .panel:not(article):hover{transform:translateY(-10px);box-shadow:0 8px 10px rgba(204,204,204,0.47)}html.theme-dark .post-list .panel:not(article):hover{transform:translateY(-10px);box-shadow:none}.post-list .panel-small:not(article){transition:all .3s}.post-list .panel-small:not(article):hover{transform:translateY(-10px);box-shadow:0 8px 10px rgba(204,204,204,0.47)}html.theme-dark .post-list .panel-small:not(article):hover{transform:translateY(-10px);box-shadow:none}.post-list .panel-picture:not(article){transition:all .3s}.post-list .panel-picture:not(article):hover{transform:translateY(-10px);box-shadow:0 8px 10px rgba(204,204,204,0.47)}}html.theme-dark .post-list .panel-picture:not(article):hover{transform:translateY(-10px);box-shadow:none}';
         }
 
+        // 文章页头图悬浮
+        if(Helper::options()->plugin('PrettyHandsome')->postThumbImgWave == 1){
+            $headCss .= '.entry-thumbnail{overflow:hidden;}.entry-thumbnail .item-thumb{border-radius:10px;transition:0.5s;}.entry-thumbnail .item-thumb:hover{transform:scale(1.05);}';
+        }
+
         // 移动端隐藏标签云和热门文章
         if(Helper::options()->plugin('PrettyHandsome')->mobileHideInfo == 1){
             $headCss .= '@media(max-width:767px){#tabs-4,#tag_cloud-2{display:none}}@media(max-width:767px){#blog_info{display:none}}';

@@ -215,6 +215,19 @@ class PluginsForm{
         return $indexPostWave;
     }
 
+    // 文章页头图悬浮
+    static function PostThumbImgWave(){
+
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
+
+        $postThumbImgWave = new Typecho_Widget_Helper_Form_Element_Radio('postThumbImgWave', $list, 0, _t('文章页头图悬浮'), '');
+
+        return $postThumbImgWave;
+    }
+
     // 网站运行时间
     static function SiteSpendTime(){
 
@@ -332,4 +345,6 @@ class PluginsForm{
 
         return $commentAvatarBreath;
     }
+
+
 }
