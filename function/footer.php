@@ -42,7 +42,7 @@ class PluginsFooter{
 
         // 时光流逝
         if(Helper::options()->plugin('PrettyHandsome')->timeinfo==1){
-            echo '<script>AddTimeInfo()</script>';
+            echo '<script>if(window.windowWidth>=764){AddTimeInfo();}</script>';
         }
 
         // 天气

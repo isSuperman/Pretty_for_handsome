@@ -124,7 +124,7 @@ EOF;
 
         // 文章页头图悬浮
         if(Helper::options()->plugin('PrettyHandsome')->postThumbImgWave == 1){
-            $headCss .= '.entry-thumbnail{overflow:hidden;}.entry-thumbnail .item-thumb{border-radius:10px;transition:0.5s;}.entry-thumbnail .item-thumb:hover{transform:scale(1.05);}';
+            $headCss .= '.entry-thumbnail{overflow:hidden;}.entry-thumbnail .item-thumb{border-radius:10px 10px 0 0;transition:0.5s;}.entry-thumbnail .item-thumb:hover{transform:scale(1.05);}';
         }
 
         // 移动端隐藏标签云和热门文章
@@ -216,8 +216,9 @@ EOF;
                     getAsideLifeTime()
                 }, 1000);
             };
-            AddTimeInfo();';
-            Helper::options()->ChangeAction .= 'AddTimeInfo();';
+            window.windowWidth = document.documentElement.clientWidth || document.body.clientWidth;
+            if(windowWidth>=764){AddTimeInfo();}';
+            Helper::options()->ChangeAction .= 'if(window.windowWidth>=764){AddTimeInfo();}';
         }
 
         // 彩色目录
