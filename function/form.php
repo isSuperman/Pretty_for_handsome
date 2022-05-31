@@ -355,7 +355,7 @@ class PluginsForm{
             1 => '开启'
         ];
 
-        $commentAvatarBreath = new Typecho_Widget_Helper_Form_Element_Radio('commentAvatarBreath', $list, 0, _t('显示评论头像呼吸效果'), _t('<br />***问题和反馈请到&nbsp;<a href="https://blog.icolak.com/program/472.html" rel="nofollow">插件发布页</a>***'));
+        $commentAvatarBreath = new Typecho_Widget_Helper_Form_Element_Radio('commentAvatarBreath', $list, 0, _t('显示评论头像呼吸效果'), _t('<br />***问题和反馈请到&nbsp;<a href="https://blog.icolak.com/program/472.html" rel="nofollow">插件发布页</a>，新功能不定时更新，请多多关注！***'));
 
         return $commentAvatarBreath;
     }
