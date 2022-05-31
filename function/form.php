@@ -333,6 +333,20 @@ class PluginsForm{
         return $commentBorderRGB;
     }
 
+
+    // 首页轮播图优化
+    static function IndexSwiperPicStyle(){
+
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
+
+        $indexSwiperPicStyle = new Typecho_Widget_Helper_Form_Element_Radio('indexSwiperPicStyle', $list, 0, _t('首页轮播图优化'), _t('降低背景图片亮度等'));
+
+        return $indexSwiperPicStyle;
+    }
+
     // 评论头像呼吸效果
     static function CommentAvatarBreath(){
 
@@ -341,10 +355,9 @@ class PluginsForm{
             1 => '开启'
         ];
 
-        $commentAvatarBreath = new Typecho_Widget_Helper_Form_Element_Radio('commentAvatarBreath', $list, 0, _t('显示评论头像呼吸效果'), '');
+        $commentAvatarBreath = new Typecho_Widget_Helper_Form_Element_Radio('commentAvatarBreath', $list, 0, _t('显示评论头像呼吸效果'), _t('<br />***问题和反馈请到&nbsp;<a href="https://blog.icolak.com/program/472.html" rel="nofollow">插件发布页</a>***'));
 
         return $commentAvatarBreath;
     }
-
 
 }

@@ -129,6 +129,9 @@ class PrettyHandsome_Plugin implements PluginInterface
         // 评论边框颜色RGB
         $form->addInput(PluginsForm::CommentBorderRGB());
 
+        // 首页轮播图样式优化
+        $form->addInput(PluginsForm::IndexSwiperPicStyle());
+
         // 评论头像呼吸效果
         $form->addInput(PluginsForm::CommentAvatarBreath());
     }

@@ -26,6 +26,11 @@ class PluginsHead{
         $headCss = '<style>';
         $headJs = '<script>';
 
+        // 首页轮播图样式优化
+        if(Helper::options()->plugin('PrettyHandsome')->indexSwiperPicStyle == 1){
+            $headCss .= '.carousel-inner>.item>a>img, .carousel-inner>.item>img{filter:brightness(0.6)}.carousel-caption{font-weight:bold;}';
+        }
+
         // 评论头像呼吸效果
         if(Helper::options()->plugin('PrettyHandsome')->commentAvatarBreath == 1){
             $headCss .= '.comment-avatar{width:100px;border-radius:50%;animation:light 4s ease-in-out infinite;transition:0.5s}.comment-avatar img{border-radius:50%}.comment-avatar:hover{transform: scale(1.15) rotate(720deg);}@keyframes light{0%{box-shadow:0 0 4px #f00;}25%{box-shadow:0 0 16px #0f0;}50%{box-shadow:0 0 4px #00f;}75%{box-shadow:0 0 16px #0f0;}100%{box-shadow:0 0 4px #f00;}}';
@@ -34,7 +39,7 @@ class PluginsHead{
         // 评论框边框颜色
         if(Helper::options()->plugin('PrettyHandsome')->commentBorder == 1){
             $cRGB = Helper::options()->plugin('PrettyHandsome')->commentBorderRGB;
-            $headCss .= '.comment-parent{margin:10px 5px;padding:20px;border-radius:10px;border:1px solid rgba('.$cRGB.',.3);box-shadow:1px 1px 2px 1px rgba('.$cRGB.',.3)}';
+            $headCss .= '.comment-parent{margin:10px 5px;padding:20px;border-radius:10px;border:1px solid rgba('.$cRGB.',.3);box-shadow:2px 2px 5px rgba('.$cRGB.',.3)}';
         }
 
         // 文章底部版权提示
