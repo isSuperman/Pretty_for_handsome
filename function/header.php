@@ -39,7 +39,7 @@ class PluginsHead{
         // 评论框边框颜色
         if(Helper::options()->plugin('PrettyHandsome')->commentBorder == 1){
             $cRGB = Helper::options()->plugin('PrettyHandsome')->commentBorderRGB;
-            $headCss .= '.comment-parent{margin:10px 5px;padding:20px;border-radius:10px;border:1px solid rgba('.$cRGB.',.3);box-shadow:2px 2px 5px rgba('.$cRGB.',.3)}';
+            $headCss .= '#post-comment-list .comment-parent{margin:10px 5px;padding:20px;border-radius:10px;border:1px solid rgba('.$cRGB.',.3);box-shadow:2px 2px 5px rgba('.$cRGB.',.3)}';
         }
 
         // 文章底部版权提示
