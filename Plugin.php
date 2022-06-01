@@ -121,8 +121,11 @@ class PrettyHandsome_Plugin implements PluginInterface
         // 文章版权提示
         $form->addInput(PluginsForm::PostCopyrightTip());
 
-        // 评论边框和颜色RGB
-        $form->addInput(PluginsForm::CommentBorder(),PluginsForm::CommentBorderRGB());
+        // 评论边框
+        $form->addInput(PluginsForm::CommentBorder());
+
+        // 评论边框颜色RGB
+        $form->addInput(PluginsForm::CommentBorderRGB());
 
         // 首页轮播图样式优化
         $form->addInput(PluginsForm::IndexSwiperPicStyle());
