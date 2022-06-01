@@ -359,5 +359,35 @@ class PluginsForm{
 
         return $commentAvatarBreath;
     }
+	
+	// 动态背景
+	static function DynamicBackground(){
+		$list = [
+			'a0.js'     => '不使用动态背景',
+			'a1.js'     => '黑客帝国001',
+			'a2.js'     => '黑客帝国002',
+			'a3.js'     => '磁力线条',
+			'a4.js'     => '浮动气泡',
+			'a5.js'     => '七色彩虹',
+			'a6.js'     => '下雨背景',
+			'a7.js'     => '彩色气球[推荐]',
+			'a8.js'     => '彩色爱心',
+			'a9.js'     => '科技背景',
+			'b1.js'     => '蓝色气泡',
+			'b2.js'     => '漫漫星空[推荐]',
+			'b3.js'     => '海平面',
+			'b4.js'     => '随机色带',
+			'b5.js'     => '气泡背景[推荐]',
+			'b6.js'     => '旋转特效',
+			'b7.js'     => '磁感线',
+			'b8.js'     => '互动星空',
+			'b9.js'     => '旋转星空',
+			];
+		
+        $dynamicBackground = new Typecho_Widget_Helper_Form_Element_Select('dynamicBackground', $list, 'a7.js', _t('动态背景'), _t('动态背景的渲染会占用终端用户的内存，如果您的用户不是十几年前的机型，影响可以忽略不计'));
+        
+        return $dynamicBackground;
+	}
+
 
 }

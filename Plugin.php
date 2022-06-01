@@ -14,10 +14,10 @@ include 'function/footer.php';
 /**
  * <strong style="color:#28B7FF;font-family: 楷体;">Handsome主题美化专用</strong>
  *<div class="prettyHandsome"><a style="width:fit-content" id="prettyHandsome">版本检测中..</div>&nbsp;</div><style>.prettyHandsome {    margin-top: 5px;}.prettyHandsome a {    background: #00BFFF;    padding: 5px;    color: #fff;}</style>
- * <script>var prettyHandsome="1.0.9";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
+ * <script>var prettyHandsome="1.0.10";function update_detec(){var container=document.getElementById("prettyHandsome");if(!container){return}var ajax=new XMLHttpRequest();container.style.display="block";ajax.open("get","https://api.github.com/repos/isSuperman/Pretty_for_handsome/releases/latest");ajax.send();ajax.onreadystatechange=function(){if(ajax.readyState===4&&ajax.status===200){var obj=JSON.parse(ajax.responseText);var newest=obj.tag_name;if(newest>prettyHandsome){container.innerHTML="发现新主题版本："+obj.name+'。下载地址：<a href="'+obj.zipball_url+'">点击下载</a>'+"<br>当前版本:"+String(prettyHandsome)+'<a target="_blank" href="'+obj.html_url+'">👉查看新版亮点</a>'}else{container.innerHTML="当前版本:"+String(prettyHandsome)+"。"+"最新版"}}}};update_detec();</script>		
  * @package PrettyHandsome
  * @author <strong style="color:#28B7FF;font-family: 楷体;">isSuperman</strong>
- * @version 1.0.9
+ * @version 1.0.10
  * @link https://github.com/isSuperman/Pretty_for_handsome
  */
 class PrettyHandsome_Plugin implements PluginInterface
@@ -62,9 +62,7 @@ class PrettyHandsome_Plugin implements PluginInterface
         $form->addInput(PluginsForm::TimeInfo());
 
         // 顶部导航栏天气
-        $form->addInput(PluginsForm::Weather());
-        $form->addInput(PluginsForm::WeatherUID());
-        $form->addInput(PluginsForm::WeatherHASH());
+        $form->addInput(PluginsForm::Weather(),PluginsForm::WeatherUID(),PluginsForm::WeatherHASH());
 
         // 彩色目录图标
         $form->addInput(PluginsForm::ColorToc());
@@ -123,17 +121,18 @@ class PrettyHandsome_Plugin implements PluginInterface
         // 文章版权提示
         $form->addInput(PluginsForm::PostCopyrightTip());
 
-        // 评论边框
-        $form->addInput(PluginsForm::CommentBorder());
-
-        // 评论边框颜色RGB
-        $form->addInput(PluginsForm::CommentBorderRGB());
+        // 评论边框和颜色RGB
+        $form->addInput(PluginsForm::CommentBorder(),PluginsForm::CommentBorderRGB());
 
         // 首页轮播图样式优化
         $form->addInput(PluginsForm::IndexSwiperPicStyle());
 
+        // 动态背景
+        $form->addInput(PluginsForm::DynamicBackground());
+
         // 评论头像呼吸效果
         $form->addInput(PluginsForm::CommentAvatarBreath());
+        
     }
 
     /**

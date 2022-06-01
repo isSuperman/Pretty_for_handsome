@@ -71,5 +71,13 @@ class PluginsFooter{
         if(Helper::options()->plugin('PrettyHandsome')->copyTip==1){
             echo '<script>kaygb_copy();function kaygb_copy(){$(document).ready(function(){$("body").bind("copy",function(e){hellolayer()})});var sitesurl=window.location.href;function hellolayer(){$.message({message: "尊重原创，转载请注明出处！<br>"+sitesurl,title: "复制成功",type: "success",autoHide: !1,time: "5000"})}}</script>';
         }
-}
+
+        // 动态背景
+        $PluginPath = Helper::options()->pluginUrl.'/PrettyHandsome/static/';
+        
+        // 获取配置信息
+        $dynamicBackgroundtype = Helper::options()->plugin('PrettyHandsome')->dynamicBackground;
+        
+        echo '<script type="text/javascript" src="' . $PluginPath . 'js/bg/' . $dynamicBackgroundtype . '"></script>';
+    }
 }
