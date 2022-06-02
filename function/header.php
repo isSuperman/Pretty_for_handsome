@@ -10,7 +10,7 @@ class PluginsHead{
     // 初始化头部
     static function init(){
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
-        echo '<style>html.theme-dark #bg_canvas{display:none}</style>';
+        echo '<style>html.theme-dark #bg_canvas{display:none}@media(max-width:767px){#bg_canvas{display:none}}</style>';
     }
 
     // iframe视频样式
