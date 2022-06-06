@@ -130,6 +130,9 @@ class PrettyHandsome_Plugin implements PluginInterface
         // 首页轮播图样式优化
         $form->addInput(PluginsForm::IndexSwiperPicStyle());
 
+        // 首页图片版式优化
+        $form->addInput(PluginsForm::IndexHeadImageStyle());
+
         // 动态背景
         $form->addInput(PluginsForm::DynamicBackground());
 

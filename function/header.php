@@ -27,6 +27,11 @@ class PluginsHead{
         $headCss = '<style>';
         $headJs = '<script>';
 
+        // 首页图片版式优化
+        if(Helper::options()->plugin('PrettyHandsome')->indexHeadImageStyle == 1){
+            $headCss .= '.panel-picture .entry-header{background:linear-gradient(180deg,transparent,rgba(0,0,0,1)) !important;}@media(min-width:767px){.panel-picture .wrapper-lg {padding: 80px 20px 20px 20px !important;}}@media(max-width:767px){.panel-picture .wrapper-lg {padding: 30px 20px 20px 20px !important;}}.panel-picture.wrapper-lg h3{margin-bottom:5px} ';
+        }
+
         // 首页轮播图样式优化
         if(Helper::options()->plugin('PrettyHandsome')->indexSwiperPicStyle == 1){
             $headCss .= '.carousel-inner>.item>a>img, .carousel-inner>.item>img{filter:brightness(0.6)}.carousel-caption{font-weight:bold;}';

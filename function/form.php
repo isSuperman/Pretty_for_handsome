@@ -347,6 +347,19 @@ class PluginsForm{
         return $indexSwiperPicStyle;
     }
 
+    // 首页图片版式优化
+    static function IndexHeadImageStyle(){
+
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
+
+        $indexHeadImageStyle = new Typecho_Widget_Helper_Form_Element_Radio('indexHeadImageStyle', $list, 0, _t('首页图片版式优化'), _t('增加文章题目背景颜色'));
+
+        return $indexHeadImageStyle;
+    }
+
     // 评论头像呼吸效果
     static function CommentAvatarBreath(){
 
