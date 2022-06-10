@@ -401,6 +401,28 @@ class PluginsForm{
         
         return $dynamicBackground;
 	}
+    // 移动端隐藏动态背景
+    static function MobileHideDyBackground(){
 
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
 
+        $mobileHideDyBackground = new Typecho_Widget_Helper_Form_Element_Radio('mobileHideDyBackground', $list, 0, _t('移动端隐藏动态背景'), _t(''));
+
+        return $mobileHideDyBackground;
+    }
+    // 夜间模式隐藏动态背景
+    static function ThemeDarkHideDyBackground(){
+
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
+
+        $themeDarkHideDyBackground = new Typecho_Widget_Helper_Form_Element_Radio('themeDarkHideDyBackground', $list, 0, _t('夜间模式隐藏动态背景'), _t(''));
+
+        return $themeDarkHideDyBackground;
+    }
 }

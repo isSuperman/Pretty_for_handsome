@@ -10,7 +10,6 @@ class PluginsHead{
     // 初始化头部
     static function init(){
         echo '<script src="https://cdn.staticfile.org/jquery/2.2.4/jquery.min.js"></script>';
-        echo '<style>html.theme-dark #bg_canvas{display:none}@media(max-width:767px){#bg_canvas{display:none}}</style>';
     }
 
     // iframe视频样式
@@ -26,6 +25,16 @@ class PluginsHead{
         }
         $headCss = '<style>';
         $headJs = '<script>';
+
+        // 夜间模式隐藏动态背景
+        if(Helper::options()->plugin('PrettyHandsome')->themeDarkHideDyBackground == 1){
+            $headCss .= 'html.theme-dark #bg_canvas{display:none}';
+        }
+
+        // 移动端隐藏动态背景
+        if(Helper::options()->plugin('PrettyHandsome')->mobileHideDyBackground == 1){
+            $headCss .= '@media(max-width:767px){#bg_canvas{display:none}}';
+        }
 
         // 首页图片版式优化
         if(Helper::options()->plugin('PrettyHandsome')->indexHeadImageStyle == 1){
