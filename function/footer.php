@@ -32,7 +32,7 @@ class PluginsFooter{
 
         // 访客数量和响应耗时
         if(Helper::options()->plugin('PrettyHandsome')->siteInfo==1){
-            echo '<script>TotalVisit();ResponseTime();</script>';
+            echo '<script>if(!$("#fkzs").length && !$("#xyhs").length){TotalVisit();ResponseTime();}</script>';
         }
 
         // 网站运行时间
@@ -42,7 +42,7 @@ class PluginsFooter{
 
         // 时光流逝
         if(Helper::options()->plugin('PrettyHandsome')->timeinfo==1){
-            echo '<script>if(window.windowWidth>=764){AddTimeInfo();}</script>';
+            echo '<script>if(window.windowWidth>=764){if(!$("#time_info").length){AddTimeInfo();}}</script>';
         }
 
         // 天气

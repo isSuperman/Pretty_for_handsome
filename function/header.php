@@ -165,7 +165,7 @@ EOF;
             $headJs .= '
             function TotalVisit(){
                 $(function(){
-                $("ul.list-group.box-shadow-wrap-normal").append("<li class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$user.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">'.STATIC::TotalVisit().'</span>访客总数</li>");
+                $("ul.list-group.box-shadow-wrap-normal").append("<li id=\"fkzs\" class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$user.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">'.STATIC::TotalVisit().'</span>访客总数</li>");
                 });
             }
             function AS_ResTime(){
@@ -184,10 +184,10 @@ EOF;
                     function consume(time) {
                         return time + "ms";
                     };
-                    $("ul.list-group.box-shadow-wrap-normal").append("<li class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$time.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">"+res+"</span>响应耗时</li>");
+                    $("ul.list-group.box-shadow-wrap-normal").append("<li id=\"xyhs\" class=\"list-group-item text-second\"><span class=\"blog-info-icons\">'.$time.'</span><span class=\"badge pull-right\" style=\"background-color: '.$color[array_rand($color)].'\">"+res+"</span>响应耗时</li>");
                 });
         }';
-            Helper::options()->ChangeAction .= "TotalVisit();ResponseTime();";  
+            Helper::options()->ChangeAction .= "if(!$('#fkzs').length && !$('#xyhs').length){TotalVisit();ResponseTime();}";  
         }
 
         // 时光流逝
@@ -237,8 +237,12 @@ EOF;
                 }, 1000);
             };
             window.windowWidth = document.documentElement.clientWidth || document.body.clientWidth;
-            if(windowWidth>=764){AddTimeInfo();}';
-            Helper::options()->ChangeAction .= 'if(window.windowWidth>=764){AddTimeInfo();}';
+            if(window.windowWidth>=764){
+                if(!$("#time_info").length){
+                    AddTimeInfo();
+                }
+            }';
+            Helper::options()->ChangeAction .= 'if(window.windowWidth>=764){if(!$("#time_info").length){AddTimeInfo();}}';
         }
 
         // 彩色目录
