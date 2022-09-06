@@ -444,4 +444,18 @@ class PluginsForm{
 
         return $bgimg;
     }
+    // 文章前广告位
+    static function BeforePostContentAD(){
+
+        $beforePostAD = new Text('beforePostAD', null, '', _t('文章前HTML广告代码'), _t('需要转义，前边添加反斜杠\"'));
+
+        return $beforePostAD;
+    }
+    // 评论前广告位
+    static function BeforeCommentListAD(){
+
+        $beforeCommentListAD = new Text('beforeCommentListAD', null, '', _t('评论列表前HTML广告代码'), _t('需要转义，前边添加反斜杠\"'));
+
+        return $beforeCommentListAD;
+    }
 }

@@ -9,6 +9,14 @@ class PluginsFooter{
 
     // 配置插件
     static function SettingFooter(){
+
+        // 评论前广告位
+        $beforeCommentListAD = Helper::options()->plugin('PrettyHandsome')->beforeCommentListAD;
+        echo '<script>if($("#post-comment-list").length){$("#post-comment-list").prepend("'.$beforeCommentListAD.'")}</script>';
+
+        // 文章前广告位
+        $beforePostAD = Helper::options()->plugin('PrettyHandsome')->beforePostAD;
+        echo '<script>if($("#post-content").length){$("#post-content").prepend("'.$beforePostAD.'")}</script>';
         
         // 文章底部版权提示
         if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip==1){
