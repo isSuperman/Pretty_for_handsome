@@ -425,4 +425,23 @@ class PluginsForm{
 
         return $themeDarkHideDyBackground;
     }
+    // 设置静态背景图片开关
+    static function StaticBackgroundImage(){
+
+        $list = [
+            0 => '关闭',
+            1 => '开启'
+        ];
+
+        $staticBackgroundImage = new Typecho_Widget_Helper_Form_Element_Radio('StaticBackgroundImage', $list, 0, _t('静态背景图片开关'), _t(''));
+
+        return $staticBackgroundImage;
+    }
+    // 设置静态背景图片
+    static function StaticBackgroundImageUrl(){
+
+        $bgimg = new Text('bgimg', null, '', _t('静态背景图片'), _t('http://example.com/xxx.jpg'));
+
+        return $bgimg;
+    }
 }

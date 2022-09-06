@@ -26,6 +26,12 @@ class PluginsHead{
         $headCss = '<style>';
         $headJs = '<script>';
 
+        // 静态背景图片设置
+        if(Helper::options()->plugin('PrettyHandsome')->StaticBackgroundImage == 1){
+            $staticBackgroundImageUrl = Helper::options()->plugin('PrettyHandsome')->bgimg;
+            $headCss .= 'body{height:auto !important;background-image:url("'.$staticBackgroundImageUrl.'");background-attachment: fixed;background-repeat:no-repeat;}';
+        }
+
         // 夜间模式隐藏动态背景
         if(Helper::options()->plugin('PrettyHandsome')->themeDarkHideDyBackground == 1){
             $headCss .= 'html.theme-dark #bg_canvas{display:none}';
