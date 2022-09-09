@@ -26,10 +26,11 @@ class PluginsHead{
         $headCss = '<style>';
         $headJs = '<script>';
 
+        // 广告位配置
         $beforeCommentListAD = Helper::options()->plugin('PrettyHandsome')->beforeCommentListAD;
         Helper::options()->ChangeAction .= 'if($("#post-comment-list").length){$("#post-comment-list").prepend("'.$beforeCommentListAD.'")}';
         $beforePostAD = Helper::options()->plugin('PrettyHandsome')->beforePostAD;
-        Helper::options()->ChangeAction .= 'if($("#post-content").length){$("#post-content").prepend("'.$beforePostAD.'")}';
+        Helper::options()->ChangeAction .= 'let winPath=window.location.pathname;let pagePath=winPath.split("/")[1];if(pagePath!="image"){if($("#post-content").length){$("#post-content").prepend("'.$beforePostAD.'")}}';
 
         // 静态背景图片设置
         if(Helper::options()->plugin('PrettyHandsome')->StaticBackgroundImage == 1){

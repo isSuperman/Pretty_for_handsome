@@ -16,7 +16,7 @@ class PluginsFooter{
 
         // 文章前广告位
         $beforePostAD = Helper::options()->plugin('PrettyHandsome')->beforePostAD;
-        echo '<script>if($("#post-content").length){$("#post-content").prepend("'.$beforePostAD.'")}</script>';
+        echo '<script>let winPath=window.location.pathname;let pagePath=winPath.split("/")[1];if(pagePath!="image"){if($("#post-content").length){$("#post-content").prepend("'.$beforePostAD.'")}}</script>';
         
         // 文章底部版权提示
         if(Helper::options()->plugin('PrettyHandsome')->postCopyrightTip==1){
